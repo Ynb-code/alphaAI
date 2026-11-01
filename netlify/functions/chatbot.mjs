@@ -73,12 +73,18 @@ export default async (request) => {
       }
     );
 
-    if (!result.ok) {
-      return Response.json(
-        { error: "Erreur du service Groq" },
-        { status: 502, headers: cors }
-      );
-    }
+  if (!result.ok) {
+  const details = await result.text();
+  console.error("Erreur Groq :", result.status, details);
+
+  return Response.json(
+    {
+      error: "Erreur du service Groq",
+      code: result.status
+    },
+    { status: 502, headers: cors }
+  );
+}
 
     const data = await result.json();
 
