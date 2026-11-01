@@ -1,0 +1,44 @@
+ALPHA AI SCRATCH — Netlify Function pour Groq
+
+IMPORTANT
+- Ce dossier ne contient PAS ta clé Groq.
+- Ne mets jamais AI_API_KEY dans index.html, Scratch ou un fichier public.
+- La fonction attend un POST JSON : {"message":"Bonjour"}.
+- Le modèle configuré est llama-3.3-70b-versatile. Si Groq indique qu'il n'est plus disponible pour ton compte, remplace-le par un modèle actif de ta console Groq.
+
+POURQUOI LE GLISSER-DÉPOSER NE SUFFIT PAS
+Le déploiement manuel par glisser-déposer de Netlify sert au site statique et ne déploie pas les fonctions serveur comme un déploiement Git ou CLI.
+Sans installer Node.js, utilise GitHub depuis le navigateur :
+
+1. Décompresse ce ZIP sur ton ordinateur.
+2. Crée un dépôt GitHub (github.com) depuis ton navigateur.
+3. Téléverse TOUS les fichiers et dossiers de ce projet dans le dépôt, en conservant exactement la structure :
+   - netlify.toml
+   - index.html
+   - netlify/functions/chatbot.mjs
+4. Sur Netlify, choisis Add new project / Import an existing project.
+5. Choisis GitHub et sélectionne ce dépôt.
+6. Paramètres de build :
+   - Build command : laisser vide
+   - Publish directory : .
+7. Déploie le site.
+
+CONFIGURER LE SECRET GROQ
+Dans Netlify > Site configuration > Environment variables :
+- Key : AI_API_KEY
+- Value : ta clé secrète Groq
+- Contains secret values : Yes
+- Scope : Functions (ou All scopes si Functions n'est pas proposé)
+- Deploy context : Production
+
+Après avoir ajouté/modifié le secret, relance un déploiement.
+
+TEST
+Ouvre ton site puis utilise la page d'accueil pour envoyer « Salut ! ».
+L'endpoint est :
+/.netlify/functions/chatbot
+
+Ouvrir directement l'endpoint dans la barre d'adresse envoie une requête GET : une réponse 405 est normale. La page de test envoie le POST attendu.
+
+LIMITES / SÉCURITÉ
+Ce paquet est un prototype de départ. Avant de rendre le chatbot public, ajoute une authentification ou un contrôle d'accès et une limitation de débit côté serveur. CORS * ne protège pas l'endpoint : n'importe quel site peut tenter de l'appeler. Ne laisse pas un endpoint public sans protections, car il peut consommer ton quota Groq.

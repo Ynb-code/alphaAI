@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alpha AI Scratch — test API</title>
+  <style>
+    body { font: 16px system-ui, sans-serif; max-width: 650px; margin: 3rem auto; padding: 0 1rem; }
+    input { width: 72%; padding: .7rem; }
+    button { padding: .7rem 1rem; cursor: pointer; }
+    pre { white-space: pre-wrap; background: #f3f4f6; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Alpha AI Scratch — test API</h1>
+  <p>Cette page permet de tester la fonction Netlify. Elle ne contient pas ta clé Groq.</p>
+  <input id="message" maxlength="1000" placeholder="Écris un message…" value="Salut !">
+  <button id="send">Envoyer</button>
+  <pre id="result">La réponse apparaîtra ici.</pre>
+  <script>
+    const button = document.querySelector("#send");
+    button.addEventListener("click", async () => {
+      const result = document.querySelector("#result");
+      const message = document.querySelector("#message").value;
+      button.disabled = true;
+      result.textContent = "Envoi en cours…";
+      try {
+        const response = await fetch("/.netlify/functions/chatbot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+        result.textContent = response.ok ? data.reply : `Erreur ${response.status} : ${data.error || "Erreur inconnue"}`;
+      } catch {
+        result.textContent = "Impossible de joindre la fonction Netlify.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
