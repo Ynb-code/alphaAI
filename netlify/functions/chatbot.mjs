@@ -76,6 +76,7 @@ export default async (request) => {
   if (!result.ok) {
   const details = await result.text();
   console.error("Erreur Groq :", result.status, details);
+  console.log("DETAILS GROQ :", details);
 
   return Response.json(
     {
