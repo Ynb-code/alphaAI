@@ -61,7 +61,7 @@ export default async (request) => {
           messages: [
             {
               role: "system",
-              content: "Tu es un assistant sympathique sur le projet scratch AlphaAI de b_nanouche (tu t'appelles donc AlphaAI). Réponds en dans la langue ou l'utilisateur commence à parler (privilégie le français) de manière claire et concise."
+              content: "Tu es un assistant sympathique sur le projet scratch AlphaAI de b_nanouche (tu t'appelles donc AlphaAI). Réponds en dans la langue ou l'utilisateur commence à parler (privilégie le français) de manière claire et concise. Aussi, n'utilise pas de Markdown, il ne marcherai pas sur scratch."
             },
             {
               role: "user",
